@@ -6,6 +6,7 @@ import QRScanner from './components/QRScanner'
 function App() {
   const [isIOS, setIsIOS] = useState(false);
   const [activeTab, setActiveTab] = useState<'generator' | 'scanner'>('generator');
+  const [scanError, setScanError] = useState<string | null>(null);
 
   useEffect(() => {
     // More comprehensive iOS detection
@@ -16,13 +17,20 @@ function App() {
 
   const handleScanResult = (decodedText: string) => {
     console.log('Scan result:', decodedText);
+    setScanError(null);
     // You can add additional handling here if needed
   };
 
   const handleScanError = (error: string) => {
     console.error('Scan error:', error);
+    setScanError(error);
     // You can add additional error handling here
   };
+
+  // Reset error when changing tabs
+  useEffect(() => {
+    setScanError(null);
+  }, [activeTab]);
 
   return (
     <div className="app-container">
@@ -47,6 +55,12 @@ function App() {
           </button>
         </div>
       </div>
+
+      {scanError && (
+        <div className="app-error-message">
+          <p>An error occurred: {scanError}</p>
+        </div>
+      )}
 
       <main>
         {activeTab === 'generator' ? (

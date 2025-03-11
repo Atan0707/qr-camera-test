@@ -15,6 +15,7 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
   const [scanResult, setScanResult] = useState<string | null>(null);
   const [isIOS, setIsIOS] = useState<boolean>(false);
   const [isProcessingImage, setIsProcessingImage] = useState<boolean>(false);
+  const [scannerError, setScannerError] = useState<string | null>(null);
   
   const scannerRef = useRef<Html5Qrcode | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -28,25 +29,43 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
   
   // Initialize scanner on component mount
   useEffect(() => {
-    scannerRef.current = new Html5Qrcode(scannerContainerId);
+    // Create scanner container if it doesn't exist
+    let container = document.getElementById(scannerContainerId);
+    if (!container) {
+      container = document.createElement('div');
+      container.id = scannerContainerId;
+      container.className = 'scanner-container';
+      document.querySelector('.scanner-options')?.appendChild(container);
+    }
     
-    // Check for camera permissions and available devices
-    Html5Qrcode.getCameras()
-      .then(devices => {
-        if (devices && devices.length > 0) {
-          setAvailableCameras(devices);
-          setSelectedCamera(devices[0].id);
-          setPermissionGranted(true);
-        } else {
+    try {
+      scannerRef.current = new Html5Qrcode(scannerContainerId);
+      
+      // Check for camera permissions and available devices
+      Html5Qrcode.getCameras()
+        .then(devices => {
+          if (devices && devices.length > 0) {
+            setAvailableCameras(devices);
+            setSelectedCamera(devices[0].id);
+            setPermissionGranted(true);
+            setScannerError(null);
+          } else {
+            setPermissionGranted(false);
+            setScannerError('No camera devices found');
+            if (onError) onError('No camera devices found');
+          }
+        })
+        .catch(err => {
+          console.error('Error getting cameras', err);
           setPermissionGranted(false);
-          if (onError) onError('No camera devices found');
-        }
-      })
-      .catch(err => {
-        console.error('Error getting cameras', err);
-        setPermissionGranted(false);
-        if (onError) onError('Camera permission denied or no cameras available');
-      });
+          setScannerError('Camera permission denied or no cameras available');
+          if (onError) onError('Camera permission denied or no cameras available');
+        });
+    } catch (err) {
+      console.error('Error initializing scanner', err);
+      setScannerError('Failed to initialize QR scanner');
+      if (onError) onError('Failed to initialize QR scanner');
+    }
       
     // Cleanup on unmount
     return () => {
@@ -58,15 +77,21 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
   }, []);
   
   const startScanner = async () => {
-    if (!scannerRef.current || !selectedCamera) return;
+    if (!scannerRef.current || !selectedCamera) {
+      setScannerError('Scanner not initialized or no camera selected');
+      return;
+    }
     
     try {
       setScanning(true);
       setScanResult(null);
+      setScannerError(null);
       
       const qrCodeSuccessCallback = (decodedText: string, decodedResult: unknown) => {
         setScanResult(decodedText);
         if (onScan) onScan(decodedText, decodedResult);
+        // Automatically stop scanning after successful scan
+        stopScanner();
       };
       
       const config = {
@@ -87,7 +112,9 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
     } catch (err) {
       console.error('Error starting scanner', err);
       setScanning(false);
-      if (onError) onError('Failed to start the QR scanner');
+      const errorMessage = err instanceof Error ? err.message : 'Failed to start the QR scanner';
+      setScannerError(errorMessage);
+      if (onError) onError(errorMessage);
     }
   };
   
@@ -99,6 +126,8 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
       setScanning(false);
     } catch (err) {
       console.error('Error stopping scanner', err);
+      const errorMessage = err instanceof Error ? err.message : 'Failed to stop the QR scanner';
+      setScannerError(errorMessage);
     }
   };
   
@@ -126,6 +155,7 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
     
     setIsProcessingImage(true);
     setScanResult(null);
+    setScannerError(null);
     
     if (scannerRef.current) {
       scannerRef.current.scanFile(file, true)
@@ -135,13 +165,19 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
         })
         .catch(err => {
           console.error('Error scanning file', err);
-          if (onError) onError('Could not decode QR code from image');
+          const errorMessage = err instanceof Error ? err.message : 'Could not decode QR code from image';
+          setScannerError(errorMessage);
+          if (onError) onError(errorMessage);
         })
         .finally(() => {
           setIsProcessingImage(false);
           // Reset file input
           if (fileInputRef.current) fileInputRef.current.value = '';
         });
+    } else {
+      setIsProcessingImage(false);
+      setScannerError('Scanner not initialized');
+      if (onError) onError('Scanner not initialized');
     }
   };
 
@@ -169,6 +205,13 @@ const QRScanner: React.FC<QRScannerProps> = ({ onScan, onError, onClose }) => {
             <li>You can upload a photo of a QR code</li>
             <li>Or try using your device's native camera app to scan QR codes directly</li>
           </ol>
+        </div>
+      )}
+      
+      {scannerError && (
+        <div className="error-message">
+          <p>Error: {scannerError}</p>
+          <p>Please try again or use the file upload option instead.</p>
         </div>
       )}
       

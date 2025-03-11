@@ -7,11 +7,16 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="theme-color" content="#4a6cf7" />
-    <meta http-equiv="permissions-policy" content="camera=(), microphone=()">
+    <meta http-equiv="permissions-policy" content="camera=self, microphone=self">
     <title>QR Code Scanner</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <div style="padding: 20px; color: red; text-align: center;">
+        This application requires JavaScript to be enabled. Please enable JavaScript to continue.
+      </div>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
