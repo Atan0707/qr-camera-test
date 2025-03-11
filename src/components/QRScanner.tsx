@@ -82,10 +82,26 @@ const QRScanner: React.FC<QRScannerProps> = ({
           aspectRatio: 1.0,
         },
         (decodedText) => {
+          console.log('QR code successfully scanned:', decodedText);
+          
+          // Validate the decoded text before passing it to the parent
+          if (!decodedText || decodedText.trim() === '') {
+            console.error('Empty QR code detected');
+            if (onScanError) {
+              onScanError('Empty QR code detected');
+            }
+            return;
+          }
+          
+          // Pass the valid decoded text to the parent component
           onScanSuccess(decodedText);
+          
           // Stop scanning after successful scan
           if (scannerRef.current) {
-            scannerRef.current.stop().catch(console.error);
+            console.log('Stopping scanner after successful scan');
+            scannerRef.current.stop().catch(error => {
+              console.error('Error stopping scanner after successful scan:', error);
+            });
             setIsScanning(false);
           }
         },

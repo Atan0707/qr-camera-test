@@ -139,57 +139,115 @@ button:active {
   margin-bottom: 0.5rem;
 }
 
+/* QR Result Styles */
 .qr-result {
-  width: 100%;
-  background-color: white;
-  padding: 1.5rem;
-  border-radius: var(--border-radius);
-  box-shadow: var(--box-shadow);
-}
-
-.qr-result h2 {
-  color: var(--primary-color);
-  margin-bottom: 1rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin: 20px auto;
+  max-width: 90%;
   text-align: center;
 }
 
+.qr-result h2 {
+  color: #333;
+  margin-bottom: 16px;
+  font-size: 1.5rem;
+}
+
 .result-content {
-  margin-bottom: 1.5rem;
-  padding: 1rem;
+  margin: 20px 0;
+  padding: 16px;
   background-color: #f8f9fa;
-  border-radius: var(--border-radius);
+  border-radius: 8px;
+  word-break: break-all;
 }
 
 .url-result p, .text-result p {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #555;
 }
 
 .result-link {
-  color: var(--primary-color);
-  word-break: break-all;
+  color: #0066cc;
   display: block;
-  padding: 0.75rem;
-  background-color: #eef2ff;
-  border-radius: var(--border-radius);
+  margin: 10px 0;
+  padding: 8px;
+  background-color: #e9f5ff;
+  border-radius: 4px;
+  word-break: break-all;
   text-decoration: none;
-  transition: var(--transition);
 }
 
 .result-link:hover {
-  background-color: #dce4ff;
+  text-decoration: underline;
+  background-color: #d0e8ff;
 }
 
 .result-text {
-  padding: 0.75rem;
-  background-color: #eef2ff;
-  border-radius: var(--border-radius);
-  word-break: break-all;
+  padding: 12px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  font-family: monospace;
+  white-space: pre-wrap;
 }
 
 .reset-button {
-  width: 100%;
-  margin-top: 1rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 16px;
+}
+
+.reset-button:hover {
+  background-color: #45a049;
+}
+
+.open-button {
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 12px;
+}
+
+.open-button:hover {
+  background-color: #0055aa;
+}
+
+.qr-result.error {
+  background-color: #fff8f8;
+  border-left: 4px solid #ff6b6b;
+}
+
+.qr-result.error h2 {
+  color: #e74c3c;
+}
+
+.action-buttons {
+  margin-top: 16px;
+}
+
+/* Mobile responsiveness for QR result */
+@media (max-width: 600px) {
+  .qr-result {
+    padding: 16px;
+  }
+  
+  .result-content {
+    padding: 12px;
+  }
 }
 
 footer {

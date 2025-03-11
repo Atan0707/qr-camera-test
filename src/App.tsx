@@ -15,15 +15,26 @@ function App() {
   }, []);
 
   const handleScanSuccess = (decodedText: string) => {
+    console.log('App received scan result:', decodedText);
+    
+    // Validate the decoded text
+    if (!decodedText || decodedText.trim() === '') {
+      console.error('App received empty scan result');
+      setScanError('Empty QR code detected');
+      return;
+    }
+    
     setScanResult(decodedText);
     setScanError(null);
   };
 
   const handleScanError = (error: string) => {
+    console.error('App received scan error:', error);
     setScanError(error);
   };
 
   const handleReset = () => {
+    console.log('Resetting scan state');
     setScanResult(null);
     setScanError(null);
   };
