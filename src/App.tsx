@@ -8,14 +8,20 @@ function App() {
   const [activeTab, setActiveTab] = useState<'generator' | 'scanner'>('generator');
 
   useEffect(() => {
-    // Check if we're on iOS
-    const iosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    // More comprehensive iOS detection
+    const iosDevice = /iPad|iPhone|iPod/.test(navigator.userAgent) && 
+                      !/CriOS/.test(navigator.userAgent); // Excludes Chrome on iOS
     setIsIOS(iosDevice);
   }, []);
 
   const handleScanResult = (decodedText: string) => {
     console.log('Scan result:', decodedText);
     // You can add additional handling here if needed
+  };
+
+  const handleScanError = (error: string) => {
+    console.error('Scan error:', error);
+    // You can add additional error handling here
   };
 
   return (
@@ -51,6 +57,7 @@ function App() {
           <div className="scanner-section">
             <QRScanner 
               onScan={handleScanResult}
+              onError={handleScanError}
               onClose={() => setActiveTab('generator')}
             />
           </div>
@@ -74,6 +81,7 @@ function App() {
                   <li>You can scan QR codes directly with your iPhone camera</li>
                   <li>Just open your camera app and point it at the QR code</li>
                   <li>Tap the notification that appears to open the link or view the content</li>
+                  <li>When using our scanner, you may need to use the "Upload QR Code Image" option</li>
                 </ul>
               </div>
             )}
@@ -85,6 +93,7 @@ function App() {
                 <li>Customize QR code colors and size</li>
                 <li>Download QR codes as PNG images</li>
                 <li>Scan QR codes using your device camera</li>
+                <li>Upload QR code images for scanning (great for iOS devices)</li>
                 <li>Works on all devices and browsers</li>
               </ul>
             </div>

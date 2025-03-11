@@ -711,3 +711,85 @@ footer {
   }
 }
 
+/* iOS Instructions */
+.ios-instructions {
+  background-color: #f8f9fa;
+  border-left: 4px solid var(--primary-color);
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+}
+
+.ios-instructions p {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.ios-instructions ol {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.ios-instructions li {
+  margin-bottom: 0.5rem;
+}
+
+/* Scanner Options */
+.scanner-options {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+/* File Upload */
+.file-upload-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.upload-button {
+  background-color: #34495e;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  width: 100%;
+  max-width: 300px;
+}
+
+.upload-button:hover {
+  background-color: #2c3e50;
+}
+
+.upload-button:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .scanner-options {
+    gap: 1rem;
+  }
+  
+  .file-upload-container {
+    margin-bottom: 0.5rem;
+  }
+  
+  .upload-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
+
