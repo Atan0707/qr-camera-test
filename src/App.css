@@ -70,52 +70,168 @@ main {
 }
 
 .qr-scanner {
-  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.scanner-controls {
-  padding: 1rem;
-  display: flex;
-  justify-content: center;
-}
-
-button {
-  background-color: var(--primary-color);
-  color: white;
-  border: none;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  border-radius: var(--border-radius);
-  cursor: pointer;
-  transition: var(--transition);
-  font-weight: 600;
-  box-shadow: var(--box-shadow);
-}
-
-button:hover {
-  background-color: var(--primary-hover);
-  transform: translateY(-2px);
-}
-
-button:active {
-  transform: translateY(0);
-}
-
-.scan-button.stop {
-  background-color: #e74c3c;
-}
-
-.scan-button.stop:hover {
-  background-color: #c0392b;
+.qr-scanner h2 {
+  color: #333;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
 .error-message {
-  background-color: #fdeaea;
-  border-left: 4px solid var(--error-color);
-  padding: 1rem;
-  margin-bottom: 1.5rem;
+  background-color: #ffebee;
+  color: #c62828;
+  padding: 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.camera-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+.camera-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.camera-select {
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+  background-color: #f9f9f9;
+  font-size: 16px;
+}
+
+.scanner-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.scanner-button {
+  padding: 12px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.start-button {
+  background-color: #4caf50;
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #43a047;
+}
+
+.start-button:disabled {
+  background-color: #a5d6a7;
+  cursor: not-allowed;
+}
+
+.stop-button {
+  background-color: #f44336;
+  color: white;
+}
+
+.stop-button:hover {
+  background-color: #e53935;
+}
+
+.close-button {
+  background-color: #9e9e9e;
+  color: white;
+}
+
+.close-button:hover {
+  background-color: #757575;
+}
+
+.scanner-container {
   width: 100%;
-  border-radius: var(--border-radius);
+  height: 300px;
+  overflow: hidden;
+  position: relative;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.scan-result {
+  background-color: #e8f5e9;
+  padding: 15px;
+  border-radius: 4px;
+  margin-top: 20px;
+}
+
+.scan-result h3 {
+  color: #2e7d32;
+  margin-bottom: 10px;
+}
+
+.result-content {
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 4px;
+  border: 1px solid #c8e6c9;
+  word-break: break-all;
+}
+
+/* Toggle button for switching between generator and scanner */
+.toggle-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.toggle-buttons {
+  display: flex;
+  background-color: #f1f1f1;
+  border-radius: 30px;
+  overflow: hidden;
+  border: 1px solid #ddd;
+}
+
+.toggle-button {
+  padding: 12px 24px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.toggle-button.active {
+  background-color: #2196f3;
+  color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .scanner-buttons {
+    flex-direction: column;
+  }
+  
+  .scanner-button {
+    width: 100%;
+  }
 }
 
 .instructions {
@@ -154,14 +270,6 @@ button:active {
   color: #333;
   margin-bottom: 16px;
   font-size: 1.5rem;
-}
-
-.result-content {
-  margin: 20px 0;
-  padding: 16px;
-  background-color: #f8f9fa;
-  border-radius: 8px;
-  word-break: break-all;
 }
 
 .url-result p, .text-result p {
@@ -310,5 +418,296 @@ footer {
 
 .ios-note li {
   margin-bottom: 0.5rem;
+}
+
+/* QR Generator Styles */
+.qr-generator {
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 24px;
+  margin: 20px auto;
+  max-width: 90%;
+  text-align: center;
+}
+
+.qr-generator h2 {
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+  text-align: left;
+}
+
+.qr-input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  resize: vertical;
+  min-height: 60px;
+  font-family: inherit;
+}
+
+.qr-input:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.qr-output {
+  margin: 20px 0;
+  min-height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-code-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.qr-canvas {
+  margin-bottom: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qr-placeholder {
+  width: 300px;
+  height: 300px;
+  background-color: #f5f5f5;
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #888;
+  border: 2px dashed #ddd;
+}
+
+.qr-actions {
+  margin-top: 16px;
+}
+
+.download-button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.download-button:hover {
+  background-color: #45a049;
+}
+
+.qr-data {
+  margin-top: 16px;
+  padding: 12px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  text-align: left;
+}
+
+.qr-content {
+  font-family: monospace;
+  word-break: break-all;
+  color: #333;
+}
+
+.generator-section {
+  margin-bottom: 30px;
+}
+
+/* Mobile responsiveness for QR generator */
+@media (max-width: 600px) {
+  .qr-generator {
+    padding: 16px;
+  }
+  
+  .qr-output {
+    min-height: 260px;
+  }
+  
+  .qr-canvas, .qr-placeholder {
+    width: 250px;
+    height: 250px;
+  }
+}
+
+/* QR Generator Options Styles */
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 20px 0;
+  padding: 16px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+.option-group {
+  flex: 1;
+  min-width: 150px;
+  margin: 8px;
+  text-align: left;
+}
+
+.option-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.color-picker {
+  width: 50px;
+  height: 40px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 0;
+  background-color: transparent;
+}
+
+.size-slider {
+  width: 100%;
+  height: 8px;
+  border-radius: 4px;
+  background: #ddd;
+  outline: none;
+  -webkit-appearance: none;
+}
+
+.size-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+}
+
+.size-slider::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #4CAF50;
+  cursor: pointer;
+  border: none;
+}
+
+/* Mobile responsiveness for options */
+@media (max-width: 600px) {
+  .options-container {
+    flex-direction: column;
+    padding: 12px;
+  }
+  
+  .option-group {
+    margin: 6px 0;
+  }
+}
+
+/* Template Selector Styles */
+.template-selector {
+  margin-bottom: 24px;
+  text-align: left;
+}
+
+.template-selector label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.template-select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  background-color: white;
+  cursor: pointer;
+}
+
+.template-select:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+.template-inputs {
+  margin-bottom: 20px;
+}
+
+.input-hint {
+  display: block;
+  margin-top: 4px;
+  color: #666;
+  font-size: 0.85rem;
+  text-align: left;
+}
+
+/* Mobile responsiveness for template selector */
+@media (max-width: 600px) {
+  .template-selector {
+    margin-bottom: 16px;
+  }
+  
+  .template-select {
+    padding: 10px;
+  }
+}
+
+/* Features Section Styles */
+.features {
+  margin-top: 30px;
+  padding: 20px;
+  background-color: #f0f7f0;
+  border-radius: 8px;
+  border-left: 4px solid #4CAF50;
+}
+
+.features h4 {
+  color: #2e7d32;
+  margin-bottom: 12px;
+  font-size: 1.1rem;
+}
+
+.features ul {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.features li {
+  margin-bottom: 8px;
+  color: #444;
+}
+
+/* Mobile responsiveness for features */
+@media (max-width: 600px) {
+  .features {
+    padding: 15px;
+    margin-top: 20px;
+  }
 }
 
